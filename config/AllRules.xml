@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <AllRules>
-<downtimerulebackend>select distinct * from IncomingDataStream(aid_alarm_id in('backend2_not_running','backend2_restarts')).win:time(120 min) as a1,IncomingDataStream(aid_alarm_id in('tts_cron','eAlarm_voice_ntr')).win:time(120 min) as a2 having convertDate(a1.eventdate) = convertDate(a2.eventdate)</downtimerulebackend2>
+<downtimerulebackend>select distinct * from IncomingDataStream(aid_alarm_id in('backend2_not_running','backend2_restarts')).win:time(120 min) as a1,IncomingDataStream(aid_alarm_id in('tts_cron','eAlarm_voice_telco_ntr')).win:time(120 min) as a2 having convertDate(a1.eventdate) = convertDate(a2.eventdate)</downtimerulebackend2>
 <uptimeMYSqldownrule>select distinct *,id as uptimeid, 'The MySQL on secondary server is down. There is a potential risk of the system being down, if the primary also goes down, because the Standby is not available.' as uptimenotify from IncomingDataStream(aid_alarm_id in('mysql_standby_down')).win:time(120 min)</uptimeMYSqldownrule>
 </AllRules>
