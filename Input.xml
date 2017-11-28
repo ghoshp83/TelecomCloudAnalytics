@@ -1,0 +1,106 @@
+<ConfigDatas>
+	<Configration>xmlexample</Configration>
+	<Headers>
+		<HeaderIncluded>false</HeaderIncluded>
+		<Header></Header>
+	</Headers>
+	<Servers>
+		<!-- Sample for connecting with DB and using the SQL -->
+		<Server> 
+			<Name>Server</Name>
+			<!-- MySql Connection Details -->
+			<InURL>jdbc:mysql://127.0.0.1:3306/telecom</InURL>
+			<InDriverDB>com.mysql.jdbc.Driver</InDriverDB>
+			<InUserId>mysql_telecom</InUserId> 
+			<InPassword>mysql2017</InPassword>
+			<!-- MySql Connection Details -->
+			<!-- PostgreSql Connection Details --> 
+			<OutURL>jdbc:postgresql://127.0.0.1:5432/postgres</OutURL>
+			<OutDriverDB>org.postgresql.Driver</OutDriverDB>
+			<OutUserId>postgres</OutUserId> 
+			<OutPassword>telco2017</OutPassword>
+			<!-- PostgreSql Connection Details -->
+			<RawTruncateSQL>delete from raw_event_view</RawTruncateSQL>
+			<InsertRawSQL>insert into raw_event_view (id,hostname,eventdate,objectclass,object,parameter,parametervalue,severity,status,message,duration) values(:?id,:?hostname,:?eventdate,:?objectclass,:?object,:?parameter,:?parametervalue,:?severity,:?status,:?message,:?duration)</InsertRawSQL> 
+			<FetchEventSQL>select id,hostname,eventdate,objectclass,object,parameter,parametervalue,severity,status,message from telecom.getevent_view</FetchEventSQL>
+			<FetchLastEventMySQL>select id,hostname,eventdate,objectclass,object,parameter,parametervalue,severity,status,message from telecom.getevent_view where eventdate >= date_add(now(), interval -10 minute)</FetchLastEventMySQL>
+			<FetchLastEventOracle>select id,hostname,eventdate,objectclass,object,parameter,parametervalue,severity,status,message from telecom.getevent_view where to_timestamp(eventdate,'yyyy/mm/dd hh24:mi:ss') >= systimestamp - (interval '10' minute)</FetchLastEventOracle>
+			<FetchAlarmIdSQL>select message_text,alarm_id,functional_alarm_id,impact,resolution from alarm_id_determination</FetchAlarmIdSQL>
+			<FetchHostSQL>select servername,functionalname from network_topology</FetchHostSQL>
+			<CheckAlarmNormalise>select status,duration from normalised_sc_event_view where id=</CheckAlarmNormalise>
+			<InsertAlarmNormalise>insert into normalised_sc_event_view(id,alarm_id,functional_alarm_id,hostname_refined,eventdate,objectclass,object,parameter,parametervalue,severity,status,duration,</InsertAlarmNormalise>
+			<UpdateAlarmNormalise>update normalised_sc_event_view set</UpdateAlarmNormalise>
+			<CheckDataPresenceInNormalize>select id from normalised_sc_event_view limit 1</CheckDataPresenceInNormalize>
+			<CheckColPresenceNorm>select column_name from information_schema.columns WHERE table_name = 'normalised_sc_event_view'</CheckColPresenceNorm>
+			<SelectDowntimeRuleDetails>select rule_name,primary_alarm_ids,Correlator_alarm_ids,join_conditions,impact from downtime_rules_tools where is_processed = 'NO'</SelectDowntimeRuleDetails>
+			<UpdateDowntimeRuleDetails>update downtime_rules_tools set is_processed = 'YES' where rule_name =</UpdateDowntimeRuleDetails>
+			<DefColTrail>_text</DefColTrail>
+			<DisConGFSTrail>_disconnvol_text</DisConGFSTrail>
+			<UnsynGFSTrail>_unsynentry_text</UnsynGFSTrail>
+			<ScomColTrail>_scom_text</ScomColTrail>
+			<NprioColTrail>_nprio_text</NprioColTrail>
+			<LAColTrail>_la_text</LAColTrail>
+			<ZHColTrail>_zh_text</ZHColTrail>
+			<SwtColTrail>_misc</SwtColTrail>
+			<SariowaitColTrail>_iowait_text</SariowaitColTrail>
+			<SaridleColTrail>_idle_text</SaridleColTrail>
+			<SarloadavgColTrail>_loadavg_text</SarloadavgColTrail>
+			<OpenalertwarnColTrail>_warning_text</OpenalertwarnColTrail>
+			<OpenalertcritColTrail>_critical_text</OpenalertcritColTrail>
+			<AlarmAgentC>cron</AlarmAgentC>
+			<AlarmAgentNTR>ntr</AlarmAgentNTR>
+			<AlarmAgentPA>pa</AlarmAgentPA>
+			<AlarmSeverityC>CRITICAL</AlarmSeverityC>
+			<AlarmSeverityW>WARNING</AlarmSeverityW>
+			<ConnGFSMatchingText>Connected</ConnGFSMatchingText>
+			<DisConnGFSMatchingText>Disconnected</DisConnGFSMatchingText>
+			<UnsynGFSMatchingText>unsynchronized</UnsynGFSMatchingText>
+			<UnsynGFSMatchingTextFull>unsynchronized entries</UnsynGFSMatchingTextFull>
+			<SarIoWaitMatchingText>SAR: iowaits</SarIoWaitMatchingText>
+			<SarIdleMatchingText>SAR: idle</SarIdleMatchingText>
+			<SarLoadAvgMatchingText>load average</SarLoadAvgMatchingText>
+			<OpenalertMatchingText>offene Alarme</OpenalertMatchingText>
+			<ScomMatchingText>SCOM</ScomMatchingText>
+			<LAMatchingText>LA</LAMatchingText>
+			<ZHMatchingText>ZH</ZHMatchingText>
+			<SwtMatchingText>'Node Check' Switch to</SwtMatchingText>
+			<SwtMiscInfo>Primary Application Node Should be -</SwtMiscInfo>
+			<NonMatchingAlarmId>misc_Alarm</NonMatchingAlarmId>
+			<NonMatchingAlarmIdCol>misc</NonMatchingAlarmIdCol>
+			<DowntimeRuleXmlName>DownTimeRule.xml</DowntimeRuleXmlName>
+			<DowntimeRuleXmlRootNodePath>/DownTimeRules/*</DowntimeRuleXmlRootNodePath>
+			<UptimeRuleXmlName>UpTimeRule.xml</UptimeRuleXmlName>
+			<UptimeRuleXmlRootNodePath>/UpTimeRules/*</UptimeRuleXmlRootNodePath>
+			<AllRuleXmlName>./config/AllRules.xml</AllRuleXmlName>
+			<AllRuleXmlRootNodePath>/AllRules/*</AllRuleXmlRootNodePath>
+			<UptimeAlarmAgentPA>uptimepfid</UptimeAlarmAgentPA>
+			<EsperEventName>IncomingDataStream</EsperEventName>
+			<NoOfInstances>1</NoOfInstances>
+			<Type>SQL</Type>
+			<Timer>60000</Timer>
+			<OutputRequired>false</OutputRequired> 
+			<Output>C:\\Users\\Pralay\\telecom\\data\\</Output>
+			<ApplicationName>PERFORMANCE_ADAPTER</ApplicationName> 
+			<Interval>0</Interval> 
+			<SendMsgToMsgBus>true</SendMsgToMsgBus> 
+			<StreamType>JSON</StreamType> 
+			<StreamName>Performance-Adapter-Stream_15_min</StreamName> 
+			<Xsd-path>Not Applicable</Xsd-path>
+			<Xpath>Not Applicable</Xpath> 
+			<ProcessName></ProcessName>
+			<actuationhost>smtp-am.internal.telecom.com</actuationhost>
+			<actuationport>25</actuationport>
+			<actuationusername></actuationusername>
+			<actuationpassword></actuationpassword>
+			<actuationFrom_mail_id>testuser@gmail.com</actuationFrom_mail_id>
+			<actuationTo_mail_id>testuser@gmail.com</actuationTo_mail_id>
+			<actuationsubjectpart1>Notification for Correlation of Alarm_id </actuationsubjectpart1>
+			<actuationsubjectpart2> with the Platform alarm </actuationsubjectpart2>
+			<actuationsubjectuptime>Notification for prediction details for Alarm Id : </actuationsubjectuptime>
+			<downtimejoincondition>a1.funchostname=a2.funchostname</downtimejoincondition>
+			<uptimeruleuniqueidentifier>uptimeid</uptimeruleuniqueidentifier>
+			<watchdirfilename>./config/AllRules.xml</watchdirfilename>
+			<shadowdirfilename>./configcopy/AllRules.xml</shadowdirfilename> 
+		</Server>
+	</Servers>
+</ConfigDatas>
