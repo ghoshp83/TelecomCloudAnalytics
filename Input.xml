@@ -80,7 +80,7 @@
 			<Timer>60000</Timer>
 			<OutputRequired>false</OutputRequired> 
 			<Output>C:\\Users\\Pralay\\telecom\\data\\</Output>
-			<ApplicationName>PERFORMANCE_ADAPTER</ApplicationName> 
+			<ApplicationName>TELCO_CLOUD_ANALYTICS</ApplicationName> 
 			<Interval>0</Interval> 
 			<SendMsgToMsgBus>true</SendMsgToMsgBus> 
 			<StreamType>JSON</StreamType> 
