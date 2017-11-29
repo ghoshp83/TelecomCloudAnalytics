@@ -8,7 +8,7 @@ b) to monitor their network in real time to identify potential problems and fix 
 c) Predict the reasons for a problem, validate the prediction and take action.
 
 Installation Instructions: 
-1.  Please use TelcoCloudAnalytics_build.xml file to build the jar file : telcocloudanalytics.jar. Dependent jar files are also attached in this repository.
+1.  Please use TelcoCloudAnalytics_build.xml(sample build file for jar building using ANT) file to build the jar file : telcocloudanalytics.jar. Dependent jar files are also attached in this repository.
 2.	Please create an installation directory in a Linux machine like below – 
 /test/TelecomCloudAnalytics. Hence forth, we will refer this location as ‘Installation_directory’.
 2.	Please put telcocloudanalytics.jar file in the installation_directory.
