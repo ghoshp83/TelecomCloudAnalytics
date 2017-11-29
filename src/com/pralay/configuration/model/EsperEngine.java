@@ -47,7 +47,7 @@ public class EsperEngine {
 			dbConfig.setDriverManagerConnection(db,url,user,pass);
 			//dbConfig.setConnectionLifecycleEnum(ConfigurationDBRef.ConnectionLifecycleEnum.POOLED);
 			cepConfig.addDatabaseReference("db1", dbConfig);
-			cepConfig.configure("swisscom.esper.cfg.xml");
+			cepConfig.configure("telecom.esper.cfg.xml");
 			cep = EPServiceProviderManager.getProvider("EsperEngine", cepConfig);
 		}catch(Exception e){
 			e.printStackTrace();
