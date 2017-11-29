@@ -59,7 +59,6 @@ public class CorrelateEvent {
 	public CorrelateEvent(ServerData serverData){
 		this.serverData = serverData;
 		conn = CommonAdapterBuilder.conn;
-		//cep = CommonAdapterBuilder.cep;
 		cepRT = CommonAdapterBuilder.cepRT;
 		sendmail = new SendMail(serverData);
 		
@@ -111,11 +110,6 @@ public class CorrelateEvent {
 		public void update(EventBean[] newData, EventBean[] oldData) {
 			System.out.println("Downtime-Uptime Alarm Received: "+newData[0].getUnderlying());
 			
-			/*Thread corrdbinsertTh = new Thread(new CorrelateDBInsert(newData[0].get("a1.id").toString(),newData[0].get("a1.aid_alarm_id").toString(),
-					newData[0].get("a1.functional_aid_alarm_id").toString(),newData[0].get("a1.eventdate").toString(),newData[0].get("a1.funchostname").toString(),
-					newData[0].get("a1.severity").toString(),newData[0].get("correlate_id").toString(),newData[0].get("correlate_date").toString(),sendmail));
-			corrdbinsertTh.start();*/
-			
 			String correlate_details="This "+newData[0].get("a1.functional_aid_alarm_id")+" may relate to "+newData[0].get("a2.functional_aid_alarm_id")+". Please check "+newData[0].get("a2.functional_aid_alarm_id")+" details for further investigation";
 			String query = "insert into correlation(id,alarm_id,functional_alarm_id,eventdate,hostname,severity,correlate_id,correlate_eventdate,"
 					+ "correlate_details,impact,resolution)"
@@ -150,143 +144,17 @@ public class CorrelateEvent {
 		}
 	}
 	
-	/*public static class CEPListenerNoMatch implements UpdateListener{
-		boolean correlateeventpresence=false;
-		@Override
-		public void update(EventBean[] newData, EventBean[] oldData) {
-			System.out.println("Alarm Received for Non Matched : "+newData[0].getUnderlying());
-			String correlate_id="NO_MATCH_FOR_PLATFORM_ALARM";
-			String correlate_details="There is no match platform alarms for this "+newData[0].get("a1.functional_aid_alarm_id")+". Please check KNOWLEDGE_BASE for further investigation";
-			//String correlate_date="NOT_DATE_AVAILABLE";
-			String insertquery = "insert into correlation(id,alarm_id,functional_alarm_id,eventdate,hostname,severity,correlate_id,"
-					+ "correlate_eventdate,correlate_details)"
-					+ " values('"+newData[0].get("a1.id")+"','"+newData[0].get("a1.aid_alarm_id")+"','"+newData[0].get("a1.functional_aid_alarm_id")
-					+"','"+newData[0].get("a1.eventdate")
-					+"','"+newData[0].get("a1.funchostname")+"','"+newData[0].get("a1.severity")+"','"+correlate_id+"',null,'"+correlate_details+"')";
-			String deletequery = "delete from correlation where alarm_id='"+newData[0].get("a1.aid_alarm_id")+"'";
-			String selectquery= "select alarm_id from correlation where alarm_id='"+newData[0].get("a1.aid_alarm_id")+"' and "
-					+ "eventdate='"+newData[0].get("a1.eventdate")+"' and hostname='"+newData[0].get("a1.funchostname")+"'";
-			try{
-				LOGGING.info("insert query in alarm reception: "+insertquery);
-				//LOGGING.info("delete query in alarm reception: "+deletequery);
-				LOGGING.info("select query in alarm reception: "+selectquery);
-			
-				rs = conn.prepareStatement(selectquery).executeQuery();
-				if(rs.next()){
-					correlateeventpresence=true;
-				}
-				rs.close();
-				LOGGING.info("Is correlate event already present in No Match: "+correlateeventpresence);
-				if(!correlateeventpresence){
-					conn.prepareStatement(insertquery).executeUpdate();
-					conn.commit();
-				}
-				
-			//conn.prepareStatement(deletequery).executeUpdate();	
-			conn.prepareStatement(insertquery).executeUpdate();
-			conn.commit();
-			}catch(Exception e){
-				e.printStackTrace();
-				LOGGING.error(e.getMessage());
-			}
-		}
-	}*/
 	
 	public static void sendAlarm(EventPojo ep){
 		
-		/*Configuration cepConfig = new Configuration();
-		cepConfig.addEventType("IncomingDataStream", EventPojo.class.getName());
-		cepConfig.configure("swisscom.esper.cfg.xml");
-		EPServiceProvider cep = EPServiceProviderManager.getProvider("DowntimeEngine", cepConfig);
-		correlationAlarms = serverData.getCorrelationAlarms();
-		correlationAlarmsTokens = new StringTokenizer(correlationAlarms, ",");
-		EPStatement correlationruletts=null;
-		EPStatement correlationrulemysqllongqueries=null;
-		EPStatement correlationrulemysqlrep=null;
-		EPStatement correlationruleglusterfs=null;
-		EPStatement correlationruledbrwchk=null;
-		EPStatement correlationruleiphonerestart=null;
-		EPStatement correlationruleealarmsms=null;
-		EPStatement correlationrulepdf=null;
-		EPStatement correlationruleealarmapplication=null;*/
-		
-		//cepRT = cep.getEPRuntime();
-		//cepAdm = cep.getEPAdministrator();
 		
 		try{
-			/*XPathFactory xpf = XPathFactory.newInstance();
-			XPath xPath = xpf.newXPath();
-			//InputSource inputSource = new InputSource(new FileInputStream("DownTimeRule.xml"));
-	        InputSource inputSource = new InputSource(new FileInputStream(serverData.getDowntimerulexmlname()));
-	        XPathExpression ruleExpression = xPath.compile("node()");
-	        //NodeList ruleNodes = (NodeList) xPath.evaluate("/DownTimeRules/*", inputSource, XPathConstants.NODESET);
-	        NodeList ruleNodes = (NodeList) xPath.evaluate(serverData.getDowntimerulexmlrootnodepath(), inputSource, XPathConstants.NODESET);
-	        for(int ruleNode = 0; ruleNode < ruleNodes.getLength(); ruleNode++) {
-	            Node ruleElement = ruleNodes.item(ruleNode);
-	            String ruleStmt = ruleExpression.evaluate(ruleElement, XPathConstants.STRING).toString();
-	            LOGGING.info("Rule Value: "+ruleStmt);
-	            downtimeRule = cepAdm.createEPL(ruleStmt);
-	            downtimeRule.addListener(new CEPListener());
-	            LOGGING.info("Sending Downtime Alarm: "+ep);*/
 			LOGGING.error("inside the send Alarm methode"+ep);
 				cepRT.sendEvent(ep);
-	        //}
 		}catch(Exception e){
 			e.printStackTrace();
 			LOGGING.error(e.getMessage());
 		}
 		
-		/*while(correlationAlarmsTokens.hasMoreElements()){
-			if(correlationAlarmsTokens.nextToken().matches(ep.getAid_alarm_id())){
-				/*rulenametag = ep.getAid_alarm_id()+"_rule";
-				gettermethod = "get"+StringUtils.capitalise(rulenametag);
-				LOGGING.info("rulename -> "+rulenametag);
-				LOGGING.info("gettermethod -> "+gettermethod);
-				
-				correlationalarmtypes = evaluteDynamicGetter(gettermethod);
-				LOGGING.info("Dynamic getter evalutation in Downtime: "+correlationalarmtypes);
-				
-				EPStatement correlationrule = cepAdm.createEPL("select a1.id,a1.aid_alarm_id,a1.functional_aid_alarm_id, a1.eventdate,"
-						+ "a1.funchostname,a1.severity,"
-						+ "a2.functional_aid_alarm_id as correlate_id,a2.eventdate as correlate_date "
-						+ "from Alarm(aid_alarm_id in('"+ep.getAid_alarm_id()+"')).win:time(1 min) as a1,"
-						+ " Alarm(aid_alarm_id in("+correlationalarmtypes+"))"
-						+ ".win:time(1 min) as a2 having a1.funchostname=a2.funchostname and convertDate(a1.eventdate) = convertDate(a2.eventdate) "
-						+ "and CalculateTimeDifference(a1.eventdate,a2.eventdate) = 30");
-				EPStatement correlationNoMatchrule = cepAdm.createEPL("select a1.id,a1.aid_alarm_id,a1.functional_aid_alarm_id, a1.eventdate,"
-						+ "a1.funchostname,a1.severity,"
-						+ "a2.functional_aid_alarm_id as correlate_id,a2.eventdate as correlate_date "
-						+ "from Alarm(aid_alarm_id in('"+ep.getAid_alarm_id()+"')).win:time(1 min) as a1,"
-						+ " Alarm(aid_alarm_id not in("+correlationalarmtypes+"))"
-						+ ".win:time(1 min) as a2 having a1.funchostname=a2.funchostname and convertDate(a1.eventdate) = convertDate(a2.eventdate) "
-						+ "and CalculateTimeDifference(a1.eventdate,a2.eventdate) = 30");
-				
-				correlationrule.addListener(new CEPListener());
-				//correlationNoMatchrule.addListener(new CEPListenerNoMatch());
-				
-				correlationruletts = cepAdm.createEPL(serverData.getDowntimeruletts());
-				correlationrulemysqllongqueries = cepAdm.createEPL(serverData.getDowntimerulemysqllongqueries());
-				correlationrulemysqlrep = cepAdm.createEPL(serverData.getDowntimerulemysqlreplication());
-				correlationruleglusterfs = cepAdm.createEPL(serverData.getDowntimeruleglusterfs());
-				correlationruledbrwchk = cepAdm.createEPL(serverData.getDowntimeruledbrwcheck());
-				correlationruleiphonerestart = cepAdm.createEPL(serverData.getDowntimeruleiphonerestart());
-				correlationruleealarmsms = cepAdm.createEPL(serverData.getDowntimeruleealarmsms());
-				correlationrulepdf = cepAdm.createEPL(serverData.getDowntimerulepdf());
-				correlationruleealarmapplication = cepAdm.createEPL(serverData.getDowntimeruleealarmapplication());
-				
-				correlationruletts.addListener(new CEPListener());
-				correlationrulemysqllongqueries.addListener(new CEPListener());
-				correlationrulemysqlrep.addListener(new CEPListener());
-				correlationruleglusterfs.addListener(new CEPListener());
-				correlationruledbrwchk.addListener(new CEPListener());
-				correlationruleiphonerestart.addListener(new CEPListener());
-				correlationruleealarmsms.addListener(new CEPListener());
-				correlationrulepdf.addListener(new CEPListener());
-				correlationruleealarmapplication.addListener(new CEPListener());
-				
-				LOGGING.info("Sending Alarm: "+ep);
-				cepRT.sendEvent(ep);
-			}
-		}*/
 	}
 }
