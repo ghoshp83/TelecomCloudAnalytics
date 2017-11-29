@@ -10,11 +10,6 @@ import com.pralay.common.adapter.camel.AdapterFlow;
 import com.pralay.configuration.model.ServerData;
 import com.pralay.generic.adapter.xml.XmlDomParser;
 
-// Arguments details are mentioned as below:-
-// [Arg 0] - Application Name (Copy the name from SqmConfigType), match that name with ServerData -> ApplicationName tag in Input.xml for Development mode (if required)
-// [Agr 1] - Path of XML file for Develoment mode and for Ark environment use the Zookeeper server (localhost:2181, check the port number) or Input.xml file to load the server data 
-// [Arg 2] - Read the ServerData From XML file, then set the flag as true. This feature also work in ARK environment, when the zookerper database is missing or stop.
-// example :: PERFORMANCE_ADAPTER C:\Users\eumekan\cea_product\sqm\sqm-adaptors\common-adaptor\Input.xml
 public class AdapterEntry  extends java.lang.Object {
 	private static final Logger LOGGING = LoggerFactory.getLogger(AdapterEntry.class);
 	private static List<ServerData> severDataLst;
