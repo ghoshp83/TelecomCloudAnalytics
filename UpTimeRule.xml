@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <UpTimeRules>
 <uptimeealarmsmsrule1>select *, id as upid,'critical' as uptimenotify from IncomingDataStream(aid_alarm_id in('eAlarm_sms_ntr')).win:time(10 min) having scomval='4' and nprioval='4'</uptimeealarmsmsrule1>
-<uptimeplatformeventscpuutilrule>select *, 'PLATFORM_CPUUTIL_' as customid,'CPU Util events crossed threshold limit. Possible performance and dimensioning issues. Please take necessary action.' as uptimenotify from IncomingDataStream(aid_alarm_id in('cpuutil_pa'),funchostname in('SG001043-APPDB01')).win:time(10 min) having count(*) &gt; 5</uptimeplatformeventscpuutilrule>
+<uptimeplatformeventscpuutilrule>select *, 'PLATFORM_CPUUTIL_' as customid,'CPU Util events crossed threshold limit. Possible performance and dimensioning issues. Please take necessary action.' as uptimenotify from IncomingDataStream(aid_alarm_id in('cpuutil_pa'),funchostname in('TEST001040-APPDB01')).win:time(10 min) having count(*) &gt; 5</uptimeplatformeventscpuutilrule>
 </UpTimeRules>
