@@ -24,6 +24,7 @@ java -jar telcocloudanalytics.jar TELCO_CLOUD_ANALYTICS /test/TelecomCloudAnalyt
 7.	Please use below commands to stop the application - 
 
 ps axf | grep telcocloudanalytics.jar | grep -v grep | awk '{print "kill -9 " $1}' | sh
+
 ps axf | grep telcocloudanalytics.jar | grep -v grep | awk '{print "kill -15 " $1}' | sh
 
 8.  One can see the application stack trace in {log_file}.
