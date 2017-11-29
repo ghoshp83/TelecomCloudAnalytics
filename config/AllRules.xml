@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- This file is for rule creation of downtime and uptime management for a telecom Cloud Analytics program. This following xml tags are designated rule syntax statement for ESPER rule engine. There are join conditions, date calculation, time difference calculation and value comparison scenarios present in the below queries. Technically, below values within the xml tags are called ESPER processing language statement. The basic condition to add rules is that all the rules should be present inside root tag "AllRules".
+Tag name can be anything but UNIQUE for each rule, it is always better to provide a name which relates to the ESPER query functionality. For xml special characters '<' and '>' symbols, please use following escape characters '&lt;' and '&gt;' respectively.  -->
+<AllRules>
+<downtimerulebackend>select distinct * from IncomingDataStream(aid_alarm_id in('backend2_not_running','backend2_restarts')).win:time(120 min) as a1,IncomingDataStream(aid_alarm_id in('tts_cron','eAlarm_voice_telco_ntr')).win:time(120 min) as a2 having convertDate(a1.eventdate) = convertDate(a2.eventdate)</downtimerulebackend2>
+<uptimeMYSqldownrule>select distinct *,id as uptimeid, 'The MySQL on secondary server is down. There is a potential risk of the system being down, if the primary also goes down, because the Standby is not available.' as uptimenotify from IncomingDataStream(aid_alarm_id in('mysql_standby_down')).win:time(120 min)</uptimeMYSqldownrule>
+</AllRules>

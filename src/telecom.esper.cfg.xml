@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.espertech.com/schema/esper" xsi:schemaLocation="http://www.espertech.com/schema/esper http://www.espertech.com/schema/esper/esper-configuration-4-0.xsd">
+  <plugin-loader name="EsperIODBAdapter" 
+      class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
+    <config-xml>	
+      <esperio-db-configuration>
+        <jdbc-connection name="db1">
+    		<drivermanager-connection class-name="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/postgres" user="postgres" password="telco2017"/>
+        	<connection-settings auto-commit="true" catalog="TEST"/>
+  		</jdbc-connection>
+      </esperio-db-configuration>
+    </config-xml>
+  </plugin-loader>
+  <plugin-singlerow-function name="convertDate" function-class="com.pralay.common.adapter.processor.sql.CorrelateEvent" function-method="evaluteEventDate" />
+  <plugin-singlerow-function name="convertTimestamp" function-class="com.pralay.common.adapter.processor.sql.CorrelateEvent" function-method="evaluteLongTimeStamp" />
+  <plugin-singlerow-function name="CalculateTimeDifference" function-class="com.pralay.common.adapter.processor.sql.CorrelateEvent" function-method="evaluteTimeDiffInMin" />
+</esper-configuration>
