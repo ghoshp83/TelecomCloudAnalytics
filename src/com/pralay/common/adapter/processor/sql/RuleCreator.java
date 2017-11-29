@@ -72,7 +72,7 @@ public class RuleCreator {
 	        .newDocumentBuilder();
 
 	    /* parse existing file to DOM */
-	    Document document = documentBuilder.parse(new File("C:\\Swisscom_final\\SwissComCloudAnalytics\\config\\AllRules.xml"));
+	    Document document = documentBuilder.parse(new File("/test/TelecomCloudAnalytics/config/AllRules.xml"));
 
 	    // Root Element
 	    Element rootElement = document.getDocumentElement();
@@ -88,7 +88,7 @@ public class RuleCreator {
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        StreamResult result = new StreamResult("C:\\Swisscom_final\\SwissComCloudAnalytics\\config\\AllRules.xml");
+        StreamResult result = new StreamResult("/test/TelecomCloudAnalytics/config/AllRules.xml");
         transformer.transform(source, result);
 	}
 	
